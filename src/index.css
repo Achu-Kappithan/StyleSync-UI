@@ -1,0 +1,70 @@
+:root {
+  /* === Color Palette (Booksy-inspired teal theme) === */
+  --color-bg-deep: #081c1c;
+  --color-bg-dark: #0d2b2b;
+  --color-bg-mid: #1a3a3a;
+  --color-bg-card: rgba(13, 43, 43, 0.82);
+  --color-primary: #00c9a7;
+  --color-primary-light: #00e5bf;
+  --color-primary-dark: #009e86;
+  --color-primary-glow: rgba(0, 201, 167, 0.25);
+  --color-accent: #00b5a0;
+  --color-teal-soft: #4dd9c0;
+  --color-text-white: #ffffff;
+  --color-text-light: #e0f2ef;
+  --color-text-muted: #8ab5b0;
+  --color-text-subtle: #5a8a85;
+  --color-border: rgba(0, 201, 167, 0.2);
+  --color-border-focus: rgba(0, 201, 167, 0.6);
+  --color-error: #ff6b8a;
+  --color-success: #00c9a7;
+  --color-overlay: rgba(8, 28, 28, 0.7);
+
+  /* === Typography === */
+  --font-primary: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', serif;
+
+  /* === Shadows === */
+  --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 201, 167, 0.1);
+  --shadow-input: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-btn: 0 8px 32px rgba(0, 201, 167, 0.4);
+  --shadow-glow: 0 0 40px rgba(0, 201, 167, 0.15);
+
+  /* === Transitions === */
+  --transition-fast: 0.18s ease;
+  --transition-med: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* === Layout === */
+  --sidebar-w-collapsed: 68px;
+  --sidebar-w-expanded:  240px;
+  --header-h:            64px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Lock the page — no scrollbars anywhere */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-bg-deep);
+  color: var(--color-text-white);
+}
+
+/* Hide scrollbars globally */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; -ms-overflow-style: none; }
