@@ -4,6 +4,7 @@ import { Header } from '../../../components/layout/Header';
 import { StatsOverview } from '../components/StatsOverview';
 import { AppointmentList } from '../components/AppointmentList';
 import { TopServices } from '../components/TopServices';
+import { UsersPage } from '../../users/pages/UsersPage';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { StatCard, Appointment, ServiceMetric } from '../types/dashboard.types';
 import './Dashboard.css';
@@ -55,12 +56,17 @@ export const DashboardPage: React.FC = () => {
         className="dash-main"
         style={{ left: collapsed ? 'var(--sidebar-w-collapsed)' : 'var(--sidebar-w-expanded)' }}
       >
-        <StatsOverview stats={STATS} />
-
-        <div className="dash-grid-two">
-          <AppointmentList appointments={APPOINTMENTS} />
-          <TopServices services={TOP_SERVICES} />
-        </div>
+        {activePage === 'users' ? (
+          <UsersPage />
+        ) : (
+          <>
+            <StatsOverview stats={STATS} />
+            <div className="dash-grid-two">
+              <AppointmentList appointments={APPOINTMENTS} />
+              <TopServices services={TOP_SERVICES} />
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

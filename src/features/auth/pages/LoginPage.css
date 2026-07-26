@@ -613,3 +613,222 @@
     flex: 1;
   }
 }
+
+/* ====== SERVER ERROR BANNER ====== */
+.form-server-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.8rem;
+  color: #fca5a5;
+  font-family: var(--font-primary);
+  animation: fadeInDown 0.25s ease;
+}
+
+/* ====== ERROR INPUT HIGHLIGHT ====== */
+.form-input--error {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+
+/* ====== REGISTRATION SUCCESS STATE ====== */
+.register-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  animation: fadeInUp 0.4s ease;
+}
+
+.register-success__icon {
+  font-size: 2.8rem;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.register-success__title {
+  font-family: var(--font-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.register-success__msg {
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ====== OTP VERIFICATION SCREEN ====== */
+.otp-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.5rem 0;
+  animation: fadeInUp 0.35s ease;
+}
+
+.otp-icon {
+  font-size: 2.5rem;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  line-height: 1;
+}
+
+.otp-title {
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #e0f0f0);
+  margin: 0;
+}
+
+.otp-subtitle {
+  font-family: var(--font-primary);
+  font-size: 0.82rem;
+  color: var(--color-text-muted, #5a8080);
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.otp-email {
+  color: var(--color-primary, #00c9a7);
+  word-break: break-all;
+}
+
+/* ── Digit Input Row ── */
+.otp-inputs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.4rem 0;
+}
+
+.otp-digit {
+  width: 44px;
+  height: 54px;
+  background: rgba(0, 201, 167, 0.04);
+  border: 2px solid rgba(0, 201, 167, 0.2);
+  border-radius: 10px;
+  color: var(--color-primary, #00c9a7);
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  caret-color: transparent;
+}
+
+.otp-digit:focus {
+  border-color: var(--color-primary, #00c9a7);
+  box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.18);
+  background: rgba(0, 201, 167, 0.08);
+}
+
+.otp-digit--filled {
+  border-color: rgba(0, 201, 167, 0.6);
+  background: rgba(0, 201, 167, 0.06);
+}
+
+.otp-digit--error {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+}
+
+.otp-digit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Success Banner ── */
+.otp-success-banner {
+  width: 100%;
+  background: rgba(0, 201, 167, 0.1);
+  border: 1px solid rgba(0, 201, 167, 0.35);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.8rem;
+  color: #00c9a7;
+  font-family: var(--font-primary);
+  text-align: center;
+  animation: fadeInDown 0.25s ease;
+}
+
+/* ── Resend Section ── */
+.otp-resend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+}
+
+.otp-resend-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary, #00c9a7);
+  font-family: var(--font-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.otp-resend-btn:hover:not(:disabled) {
+  opacity: 0.75;
+}
+
+.otp-resend-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.otp-countdown {
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  color: var(--color-text-muted, #5a8080);
+  margin: 0;
+}
+
+.otp-countdown__value {
+  color: var(--color-primary, #00c9a7);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Hint ── */
+.otp-hint {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #3a5f5f);
+  margin: 0;
+  text-align: center;
+}

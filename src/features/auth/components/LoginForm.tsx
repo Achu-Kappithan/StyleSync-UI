@@ -23,6 +23,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   return (
     <form className="login-form" onSubmit={onSubmit} noValidate>
+      {/* Server Error Banner */}
+      {errors.server && (
+        <div className="form-server-error" role="alert">
+          <span>⚠️</span>
+          <span>{errors.server}</span>
+        </div>
+      )}
+
       <div className="form-group">
         <label className="form-label" htmlFor="login-email">Email Address</label>
         <div className="form-input-wrapper">

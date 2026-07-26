@@ -2,9 +2,6 @@ import React from 'react';
 import {
   ScissorsIcon,
   CalendarIcon,
-  UserIcon,
-  BellIcon,
-  SearchIcon,
 } from '../ui/Icons';
 import './Sidebar.css';
 
@@ -21,13 +18,14 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard',    label: 'Dashboard',    icon: 'dashboard' },
-  { id: 'appointments', label: 'Appointments', icon: 'calendar' },
-  { id: 'clients',      label: 'Clients',      icon: 'clients' },
-  { id: 'services',     label: 'Services',     icon: 'scissors' },
-  { id: 'staff',        label: 'Staff',        icon: 'staff' },
-  { id: 'inventory',    label: 'Inventory',    icon: 'inventory' },
-  { id: 'analytics',    label: 'Analytics',    icon: 'analytics' },
+  { id: 'dashboard',    label: 'Dashboard',        icon: 'dashboard' },
+  { id: 'appointments', label: 'Appointments',     icon: 'calendar' },
+  { id: 'clients',      label: 'Clients',          icon: 'clients' },
+  { id: 'services',     label: 'Services',         icon: 'scissors' },
+  { id: 'staff',        label: 'Staff',            icon: 'staff' },
+  { id: 'users',        label: 'Team Management',  icon: 'team' },
+  { id: 'inventory',    label: 'Inventory',        icon: 'inventory' },
+  { id: 'analytics',    label: 'Analytics',        icon: 'analytics' },
 ];
 
 const renderNavIcon = (iconType: string) => {
@@ -56,6 +54,15 @@ const renderNavIcon = (iconType: string) => {
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
           <circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>
+        </svg>
+      );
+    case 'team':
+      return (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       );
     case 'inventory':
