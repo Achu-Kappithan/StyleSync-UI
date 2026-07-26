@@ -68,9 +68,19 @@ export interface ResendOtpResponse {
   message: string;
 }
 
-// ─── Session Storage ───────────────────────────────────────────────────────────
+// ─── Demo Role Presets ─────────────────────────────────────────────────────────
+
+export interface DemoRolePreset {
+  id: string;
+  label: string;
+  role: string;
+  email: string;
+  badgeColor: string;
+  icon: string;
+}
 
 export interface StoredSession {
   token: string;
   user: UserProfile;
 }
+

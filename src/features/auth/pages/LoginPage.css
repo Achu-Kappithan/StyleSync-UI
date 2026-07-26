@@ -2,12 +2,39 @@
    LAYOUT — fills exactly 100% of the viewport, no scroll
    ============================================================ */
 .login-page {
+  /* Lock authentication flow (Login, Register, OTP) to original Rich Dark Teal theme */
+  --color-bg-deep: #081c1c;
+  --color-bg-dark: #0d2b2b;
+  --color-bg-mid: #1a3a3a;
+  --color-bg-card: rgba(13, 43, 43, 0.85);
+  --color-primary: #00c9a7;
+  --color-primary-light: #00e5bf;
+  --color-primary-dark: #009e86;
+  --color-primary-glow: rgba(0, 201, 167, 0.25);
+  --color-accent: #00b5a0;
+  --color-teal-soft: #4dd9c0;
+  --color-text-white: #ffffff;
+  --color-text-light: #e0f2ef;
+  --color-text-muted: #8ab5b0;
+  --color-text-subtle: #5a8a85;
+  --color-border: rgba(0, 201, 167, 0.2);
+  --color-border-focus: rgba(0, 201, 167, 0.6);
+  --color-error: #ff6b8a;
+  --color-success: #00c9a7;
+  --color-overlay: rgba(8, 28, 28, 0.7);
+
+  --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 201, 167, 0.1);
+  --shadow-input: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-btn: 0 8px 32px rgba(0, 201, 167, 0.4);
+  --shadow-glow: 0 0 40px rgba(0, 201, 167, 0.15);
+
   display: flex;
   width: 100%;
   height: 100vh;
   overflow: hidden;
   position: relative;
   background-color: var(--color-bg-deep);
+  color: var(--color-text-white);
 }
 
 /* ====== TOP BANNER ====== */
@@ -703,7 +730,7 @@
   font-family: var(--font-primary);
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--color-text-primary, #e0f0f0);
+  color: var(--color-text-white);
   margin: 0;
 }
 

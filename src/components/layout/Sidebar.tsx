@@ -28,6 +28,31 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'analytics',    label: 'Analytics',        icon: 'analytics' },
 ];
 
+const ROLE_LABELS: Record<string, string> = {
+  SALON_OWNER: 'Salon Owner',
+  ADMIN: 'Administrator',
+  MANAGER: 'Operations Manager',
+  ACCOUNTANT: 'Financial Manager',
+  RECEPTIONIST: 'Front Desk',
+  STAFF: 'Stylist / Staff',
+};
+
+const ROLE_NAV_PERMISSIONS: Record<string, string[]> = {
+  SALON_OWNER: ['dashboard', 'appointments', 'clients', 'services', 'staff', 'users', 'inventory', 'analytics'],
+  ADMIN: ['dashboard', 'appointments', 'clients', 'services', 'staff', 'users', 'inventory', 'analytics'],
+  MANAGER: ['dashboard', 'appointments', 'clients', 'services', 'staff', 'users', 'inventory'],
+  ACCOUNTANT: ['dashboard', 'analytics', 'inventory'],
+  RECEPTIONIST: ['dashboard', 'appointments', 'clients'],
+  STAFF: ['dashboard', 'appointments'],
+};
+
+const getInitials = (name: string): string => {
+  if (!name) return 'SS';
+  const parts = name.trim().split(' ');
+  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+};
+
 const renderNavIcon = (iconType: string) => {
   switch (iconType) {
     case 'dashboard':
@@ -96,6 +121,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
   activeItem = 'dashboard',
   onItemClick,
 }) => {
+  // Read session user profile
+  let user: { fullName?: string; role?: string } | null = null;
+  try {
+    const raw = sessionStorage.getItem('ss_user');
+    if (raw) user = JSON.parse(raw);
+  } catch {
+    user = null;
+  }
+
+  const rawRole = (user?.role || 'SALON_OWNER').toUpperCase();
+  const userName = user?.fullName || 'Salon Account';
+  const roleTitle = ROLE_LABELS[rawRole] || 'Salon Owner';
+  const initials = getInitials(userName);
+
+  const allowedTabs = ROLE_NAV_PERMISSIONS[rawRole] || ROLE_NAV_PERMISSIONS.SALON_OWNER;
+  const visibleNavItems = NAV_ITEMS.filter((item) => allowedTabs.includes(item.id));
+
   return (
     <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : 'sidebar--expanded'}`}>
       <div className="sidebar__logo">
@@ -112,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {!collapsed && <p className="sidebar__section-label">MAIN MENU</p>}
 
       <nav className="sidebar__nav">
-        {NAV_ITEMS.map(item => (
+        {visibleNavItems.map(item => (
           <button
             key={item.id}
             id={`nav-${item.id}`}
@@ -144,15 +186,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {!collapsed && (
         <div className="sidebar__user">
-          <div className="sidebar__user-avatar">JD</div>
+          <div className="sidebar__user-avatar">{initials}</div>
           <div className="sidebar__user-info">
-            <p className="sidebar__user-name">Jane Doe</p>
-            <p className="sidebar__user-role">Salon Owner</p>
+            <p className="sidebar__user-name">{userName}</p>
+            <p className="sidebar__user-role">{roleTitle}</p>
           </div>
         </div>
       )}
       {collapsed && (
-        <div className="sidebar__user-avatar sidebar__user-avatar--sm">JD</div>
+        <div className="sidebar__user-avatar sidebar__user-avatar--sm">{initials}</div>
       )}
     </aside>
   );

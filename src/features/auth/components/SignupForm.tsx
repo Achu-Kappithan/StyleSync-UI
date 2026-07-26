@@ -6,6 +6,7 @@ import {
   LockIcon,
   EyeIcon,
   ArrowRightIcon,
+  ScissorsIcon,
 } from '../../../components/ui/Icons';
 import { SignupFormData, FormErrors } from '../types/auth.types';
 

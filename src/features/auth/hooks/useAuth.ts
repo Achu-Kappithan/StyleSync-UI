@@ -132,6 +132,17 @@ export function useAuth() {
     setFormData(INITIAL_FORM_DATA);
   };
 
+  // ─── Select Preset Handler ───────────────────────────────────────────────
+
+  const handleSelectPreset = (preset: { email: string }) => {
+    setFormData(prev => ({
+      ...prev,
+      email: preset.email,
+      password: 'Password123!',
+    }));
+    setErrors({});
+  };
+
   // ─── Social Login (placeholder) ────────────────────────────────────────────
 
   const handleSocialLogin = () => {
@@ -171,6 +182,7 @@ export function useAuth() {
     pendingVerificationEmail,
     handleChange,
     handleSubmit,
+    handleSelectPreset,
     handleVerificationSuccess,
     handleSocialLogin,
     handleLogout,

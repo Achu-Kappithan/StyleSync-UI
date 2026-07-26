@@ -24,6 +24,7 @@ export const LoginPage: React.FC = () => {
     pendingVerificationEmail,
     handleChange,
     handleSubmit,
+    handleSelectPreset,
     handleVerificationSuccess,
     handleSocialLogin,
   } = useAuth();
@@ -159,6 +160,7 @@ export const LoginPage: React.FC = () => {
                   onChange={handleChange}
                   onTogglePassword={() => setShowPassword(v => !v)}
                   onSubmit={handleSubmit}
+                  onSelectPreset={handleSelectPreset}
                 />
               ) : (
                 <SignupForm

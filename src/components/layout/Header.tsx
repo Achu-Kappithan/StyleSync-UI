@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MenuIcon, SearchIcon, BellIcon, CalendarIcon, ChevronDownIcon } from '../ui/Icons';
+import { useTheme } from '../../hooks/useTheme';
 import './Header.css';
 
 export interface HeaderProps {
@@ -20,15 +21,52 @@ const PAGE_TITLES: Record<string, { title: string; sub: string }> = {
   settings:     { title: 'Settings',     sub: 'Account preferences' },
 };
 
+const ROLE_LABELS: Record<string, string> = {
+  SALON_OWNER: 'Salon Owner',
+  ADMIN: 'Administrator',
+  MANAGER: 'Operations Manager',
+  ACCOUNTANT: 'Financial Manager',
+  RECEPTIONIST: 'Front Desk',
+  STAFF: 'Stylist / Staff',
+};
+
+const getInitials = (name: string): string => {
+  if (!name) return 'SS';
+  const parts = name.trim().split(' ');
+  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+};
+
 export const Header: React.FC<HeaderProps> = ({
   collapsed,
   onToggle,
   activePage = 'dashboard',
   onLogout,
 }) => {
+  const { isDark, toggleTheme } = useTheme();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [notifCount] = useState(3);
-  const info = PAGE_TITLES[activePage] || PAGE_TITLES.dashboard;
+
+  // Read session user profile
+  let user: { fullName?: string; email?: string; role?: string } | null = null;
+  try {
+    const raw = sessionStorage.getItem('ss_user');
+    if (raw) user = JSON.parse(raw);
+  } catch {
+    user = null;
+  }
+
+  const rawRole = (user?.role || 'SALON_OWNER').toUpperCase();
+  const userName = user?.fullName || 'Salon User';
+  const userEmail = user?.email || 'user@stylesync.app';
+  const roleTitle = ROLE_LABELS[rawRole] || 'Salon Owner';
+  const initials = getInitials(userName);
+
+  const info = PAGE_TITLES[activePage] || {
+    title: 'Dashboard',
+    sub: `Welcome back, ${userName.split(' ')[0]}!`,
+  };
+  const subText = activePage === 'dashboard' ? `Welcome back, ${userName.split(' ')[0]}!` : info.sub;
 
   return (
     <header
@@ -47,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="app-header__breadcrumb">
           <h1 className="app-header__title">{info.title}</h1>
-          <p className="app-header__sub">{info.sub}</p>
+          <p className="app-header__sub">{subText}</p>
         </div>
       </div>
 
@@ -68,24 +106,35 @@ export const Header: React.FC<HeaderProps> = ({
           <span>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
         </div>
 
+        {/* Theme Toggle Button */}
+        <button
+          id="theme-toggle-btn"
+          className="app-header__icon-btn"
+          onClick={toggleTheme}
+          title={`Switch to ${isDark ? 'Light' : 'Dark'} Theme`}
+          aria-label="Toggle Theme"
+        >
+          <span>{isDark ? '☀️' : '🌙'}</span>
+        </button>
+
         <button id="notif-btn" className="app-header__icon-btn" aria-label="Notifications">
           <BellIcon />
           {notifCount > 0 && <span className="app-header__badge">{notifCount}</span>}
         </button>
 
         <div className="app-header__user" onClick={() => setShowUserMenu(v => !v)}>
-          <div className="app-header__avatar">JD</div>
+          <div className="app-header__avatar">{initials}</div>
           <div className="app-header__user-info">
-            <span className="app-header__user-name">Jane Doe</span>
-            <span className="app-header__user-role">Salon Owner</span>
+            <span className="app-header__user-name">{userName}</span>
+            <span className="app-header__user-role">{roleTitle}</span>
           </div>
           <ChevronDownIcon />
 
           {showUserMenu && (
             <div className="app-header__dropdown" onClick={e => e.stopPropagation()}>
               <div className="app-header__dropdown-header">
-                <p className="app-header__dropdown-name">Jane Doe</p>
-                <p className="app-header__dropdown-email">jane@stylesync.app</p>
+                <p className="app-header__dropdown-name">{userName}</p>
+                <p className="app-header__dropdown-email">{userEmail}</p>
               </div>
               <div className="app-header__dropdown-items">
                 <button className="app-header__dropdown-item">My Profile</button>

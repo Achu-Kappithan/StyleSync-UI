@@ -1,6 +1,13 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { MailIcon, LockIcon, EyeIcon, ArrowRightIcon } from '../../../components/ui/Icons';
-import { SignupFormData, FormErrors } from '../types/auth.types';
+import { SignupFormData, FormErrors, DemoRolePreset } from '../types/auth.types';
+
+const DEMO_PRESETS: DemoRolePreset[] = [
+  { id: 'owner', label: 'Salon Owner', role: 'SALON_OWNER', email: 'owner@stylesync.com', badgeColor: '#00c9a7', icon: '👑' },
+  { id: 'admin', label: 'Admin', role: 'ADMIN', email: 'admin@stylesync.com', badgeColor: '#7c6ef9', icon: '🛡️' },
+  { id: 'manager', label: 'Manager', role: 'MANAGER', email: 'manager@stylesync.com', badgeColor: '#f9a76e', icon: '💼' },
+  { id: 'staff', label: 'Staff', role: 'STAFF', email: 'staff@stylesync.com', badgeColor: '#6ef9e4', icon: '✂️' },
+];
 
 export interface LoginFormProps {
   formData: SignupFormData;
@@ -10,6 +17,7 @@ export interface LoginFormProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onTogglePassword: () => void;
   onSubmit: (e: FormEvent) => void;
+  onSelectPreset?: (preset: DemoRolePreset) => void;
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({
@@ -20,9 +28,49 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   onChange,
   onTogglePassword,
   onSubmit,
+  onSelectPreset,
 }) => {
   return (
     <form className="login-form" onSubmit={onSubmit} noValidate>
+      {/* Quick Demo Account Selector */}
+      <div className="demo-preset-section" style={{ marginBottom: '1.25rem' }}>
+        <p className="form-label" style={{ marginBottom: '0.5rem', fontSize: '0.8rem', opacity: 0.8 }}>
+          ⚡ QUICK DEMO ROLE LOGIN:
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+          {DEMO_PRESETS.map((preset) => {
+            const isSelected = formData.email.toLowerCase() === preset.email.toLowerCase();
+            return (
+              <button
+                key={preset.id}
+                type="button"
+                className={`demo-preset-pill ${isSelected ? 'active' : ''}`}
+                onClick={() => onSelectPreset?.(preset)}
+                style={{
+                  padding: '0.4rem 0.5rem',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  borderRadius: '8px',
+                  border: isSelected ? `1.5px solid ${preset.badgeColor}` : '1px solid rgba(255,255,255,0.1)',
+                  background: isSelected ? `${preset.badgeColor}22` : 'rgba(255,255,255,0.03)',
+                  color: isSelected ? preset.badgeColor : 'var(--text-muted, #a0aec0)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.25rem',
+                  transition: 'all 0.2s ease',
+                }}
+                title={`Autofill credentials for ${preset.label}`}
+              >
+                <span>{preset.icon}</span>
+                <span>{preset.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Server Error Banner */}
       {errors.server && (
         <div className="form-server-error" role="alert">

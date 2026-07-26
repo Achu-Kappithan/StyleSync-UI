@@ -1,5 +1,63 @@
-:root {
-  /* === Color Palette (Booksy-inspired teal theme) === */
+:root,
+[data-theme="light"] {
+  /* === LIGHT THEME (Default Soft White/Off-White Shade) === */
+  --color-bg-deep: #f8fafc;
+  --color-bg-dark: #ffffff;
+  --color-bg-mid: #f1f5f9;
+  --color-bg-card: #ffffff;
+  --color-primary: #00c9a7;
+  --color-primary-light: #00e5bf;
+  --color-primary-dark: #009e86;
+  --color-primary-glow: rgba(0, 201, 167, 0.15);
+  --color-accent: #00b5a0;
+  --color-teal-soft: #00a88f;
+  --color-text-white: #0f172a;
+  --color-text-light: #1e293b;
+  --color-text-muted: #64748b;
+  --color-text-subtle: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-border-focus: #00c9a7;
+  --color-error: #ef4444;
+  --color-success: #10b981;
+  --color-overlay: rgba(15, 23, 42, 0.4);
+
+  /* === Typography === */
+  --font-primary: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', serif;
+
+  /* === Shadows === */
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  --shadow-input: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-btn: 0 4px 14px rgba(0, 201, 167, 0.3);
+  --shadow-glow: 0 0 24px rgba(0, 201, 167, 0.12);
+
+  /* === Component Specs === */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --sidebar-text: #0f172a;
+  --sidebar-text-muted: #64748b;
+  --sidebar-section-label: #94a3b8;
+  --sidebar-item-hover: rgba(0, 201, 167, 0.08);
+  --sidebar-item-active: rgba(0, 201, 167, 0.12);
+  --sidebar-active-clr: #00b5a0;
+  --sidebar-user-bg: #f1f5f9;
+  --header-bg: #ffffff;
+  --header-border: #e2e8f0;
+  --header-text: #0f172a;
+
+  /* === Transitions === */
+  --transition-fast: 0.18s ease;
+  --transition-med: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* === Layout === */
+  --sidebar-w-collapsed: 68px;
+  --sidebar-w-expanded:  240px;
+  --header-h:            64px;
+}
+
+[data-theme="dark"] {
+  /* === DARK THEME (Booksy/Deep Teal Dark Mode) === */
   --color-bg-deep: #081c1c;
   --color-bg-dark: #0d2b2b;
   --color-bg-mid: #1a3a3a;
@@ -20,25 +78,23 @@
   --color-success: #00c9a7;
   --color-overlay: rgba(8, 28, 28, 0.7);
 
-  /* === Typography === */
-  --font-primary: 'Inter', sans-serif;
-  --font-display: 'Playfair Display', serif;
-
-  /* === Shadows === */
   --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 201, 167, 0.1);
   --shadow-input: 0 4px 16px rgba(0, 0, 0, 0.3);
   --shadow-btn: 0 8px 32px rgba(0, 201, 167, 0.4);
   --shadow-glow: 0 0 40px rgba(0, 201, 167, 0.15);
 
-  /* === Transitions === */
-  --transition-fast: 0.18s ease;
-  --transition-med: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* === Layout === */
-  --sidebar-w-collapsed: 68px;
-  --sidebar-w-expanded:  240px;
-  --header-h:            64px;
+  --sidebar-bg: #081c1c;
+  --sidebar-border: rgba(0, 201, 167, 0.15);
+  --sidebar-text: #ffffff;
+  --sidebar-text-muted: #8ab5b0;
+  --sidebar-section-label: #5a8a85;
+  --sidebar-item-hover: rgba(0, 201, 167, 0.08);
+  --sidebar-item-active: rgba(0, 201, 167, 0.14);
+  --sidebar-active-clr: #00c9a7;
+  --sidebar-user-bg: rgba(0, 201, 167, 0.06);
+  --header-bg: #0d2b2b;
+  --header-border: rgba(0, 201, 167, 0.15);
+  --header-text: #ffffff;
 }
 
 *, *::before, *::after {
@@ -63,6 +119,7 @@ body {
   font-family: var(--font-primary);
   background-color: var(--color-bg-deep);
   color: var(--color-text-white);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Hide scrollbars globally */
