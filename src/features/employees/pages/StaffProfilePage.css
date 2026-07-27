@@ -1,0 +1,350 @@
+.emp-360-container {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: var(--color-text-white);
+}
+
+.emp-360-loading,
+.emp-360-error {
+  padding: 4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--color-text-muted);
+}
+
+.emp-360-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.emp-360-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.emp-360-header {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: var(--shadow-card);
+  flex-wrap: wrap;
+}
+
+.emp-360-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.emp-360-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-bg-mid);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  font-size: 1.3rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.emp-360-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.emp-360-title-row h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-white);
+}
+
+.emp-360-sub {
+  margin: 0.3rem 0 0.5rem 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.emp-360-skills {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.emp-360-stats {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--color-bg-mid);
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.emp-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.emp-stat-label {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.emp-stat-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-white);
+}
+
+.emp-stat-val--green {
+  color: var(--color-primary);
+}
+
+.emp-stat-val--gold {
+  color: #eab308;
+}
+
+.emp-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.emp-tab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.emp-tab:hover {
+  color: var(--color-text-white);
+}
+
+.emp-tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.emp-tab-body {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  min-height: 320px;
+  box-shadow: var(--shadow-card);
+}
+
+.emp-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.emp-info-card {
+  background: var(--color-bg-mid);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.emp-info-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--color-primary);
+}
+
+.emp-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  border-bottom: 1px dashed var(--color-border);
+  padding-bottom: 0.4rem;
+  color: var(--color-text-white);
+}
+
+.emp-detail-label {
+  color: var(--color-text-muted);
+}
+
+.emp-payroll-card {
+  background: var(--color-bg-mid);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+
+}
+
+.emp-payroll-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  color: var(--color-primary);
+}
+
+.emp-payroll-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.emp-payroll-box {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.emp-payroll-box strong {
+  font-size: 1.2rem;
+  color: var(--color-text-white);
+}
+
+.emp-payroll-box--green strong { color: #10b981; }
+.emp-payroll-box--amber strong { color: #f59e0b; }
+.emp-payroll-box--red strong { color: #ef4444; }
+.emp-payroll-box--purple strong { color: #7c6ef9; }
+.emp-payroll-box--cyan strong { color: #00c9a7; }
+
+.emp-attendance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.emp-att-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-bg-mid);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem;
+}
+
+.emp-att-date {
+  font-weight: 600;
+  min-width: 140px;
+}
+
+.emp-att-badge {
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.emp-att-badge--present { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.emp-att-badge--half_day { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.emp-att-badge--absent { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.emp-att-badge--leave { background: rgba(124, 110, 249, 0.15); color: #7c6ef9; }
+.emp-att-badge--week_off { background: rgba(0, 201, 167, 0.15); color: #00c9a7; }
+
+.emp-att-time {
+  color: var(--color-text-muted);
+}
+
+.emp-att-notes {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+
+.emp-leave-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.emp-add-leave-card {
+  background: var(--color-bg-mid);
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.emp-add-leave-card h4 {
+  margin: 0 0 0.85rem 0;
+  font-size: 0.95rem;
+  color: var(--color-primary);
+}
+
+.emp-leave-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.emp-leave-card {
+  background: var(--color-bg-mid);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.emp-leave-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.emp-leave-status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.emp-leave-status--pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.emp-leave-status--approved { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.emp-leave-status--rejected { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+.emp-leave-reason {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.emp-leave-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

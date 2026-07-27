@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Sidebar } from '../../../components/layout/Sidebar';
 import { Header } from '../../../components/layout/Header';
 import { StatsOverview } from '../components/StatsOverview';
 import { AppointmentList } from '../components/AppointmentList';
 import { TopServices } from '../components/TopServices';
 import { UsersPage } from '../../users/pages/UsersPage';
+import { CustomerListPage } from '../../customers/pages/CustomerListPage';
+import { Customer360ProfilePage } from '../../customers/pages/Customer360ProfilePage';
+import { StaffListPage } from '../../employees/pages/StaffListPage';
+import { StaffProfilePage } from '../../employees/pages/StaffProfilePage';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { StatCard, Appointment, ServiceMetric } from '../types/dashboard.types';
 import './Dashboard.css';
 
 const STATS: StatCard[] = [
   { id: 'bookings',  label: "Today's Bookings", value: '24',     change: '+12%', up: true,  color: '#00c9a7', bg: 'rgba(0,201,167,0.1)',  icon: '📅' },
-  { id: 'revenue',   label: 'Monthly Revenue',  value: '$8,240', change: '+8.4%', up: true,  color: '#7c6ef9', bg: 'rgba(124,110,249,0.1)', icon: '💰' },
+  { id: 'revenue',   label: 'Monthly Revenue',  value: '₹8,24,000', change: '+8.4%', up: true,  color: '#7c6ef9', bg: 'rgba(124,110,249,0.1)', icon: '💰' },
   { id: 'clients',   label: 'Active Clients',   value: '312',    change: '+5%',  up: true,  color: '#f9a76e', bg: 'rgba(249,167,110,0.1)', icon: '👥' },
   { id: 'rating',    label: 'Avg Rating',       value: '4.9',    change: '-0.1', up: false, color: '#f96e9a', bg: 'rgba(249,110,154,0.1)', icon: '⭐' },
 ];
@@ -32,22 +37,50 @@ const TOP_SERVICES: ServiceMetric[] = [
   { name: 'Balayage',       count: 19, pct: 38, color: '#6ef9e4' },
 ];
 
+const DashboardHome: React.FC = () => (
+  <>
+    <StatsOverview stats={STATS} />
+    <div className="dash-grid-two">
+      <AppointmentList appointments={APPOINTMENTS} />
+      <TopServices services={TOP_SERVICES} />
+    </div>
+  </>
+);
+
 export const DashboardPage: React.FC = () => {
   const { handleLogout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  const [activePage, setActivePage] = useState('dashboard');
+
+  // Derive active menu item from location pathname
+  const activePage = location.pathname.includes('/clients')
+    ? 'clients'
+    : location.pathname.includes('/staff')
+    ? 'staff'
+    : location.pathname.includes('/users')
+    ? 'users'
+    : 'dashboard';
+
+  const handleNavItemClick = (id: string) => {
+    if (id === 'dashboard') navigate('/dashboard');
+    else if (id === 'clients') navigate('/dashboard/clients');
+    else if (id === 'staff') navigate('/dashboard/staff');
+    else if (id === 'users') navigate('/dashboard/users');
+    else navigate(`/dashboard/${id}`);
+  };
 
   return (
     <div className="dash-root">
       <Sidebar
         collapsed={collapsed}
         activeItem={activePage}
-        onItemClick={setActivePage}
+        onItemClick={handleNavItemClick}
       />
 
       <Header
         collapsed={collapsed}
-        onToggle={() => setCollapsed(v => !v)}
+        onToggle={() => setCollapsed((v) => !v)}
         activePage={activePage}
         onLogout={handleLogout}
       />
@@ -56,17 +89,15 @@ export const DashboardPage: React.FC = () => {
         className="dash-main"
         style={{ left: collapsed ? 'var(--sidebar-w-collapsed)' : 'var(--sidebar-w-expanded)' }}
       >
-        {activePage === 'users' ? (
-          <UsersPage />
-        ) : (
-          <>
-            <StatsOverview stats={STATS} />
-            <div className="dash-grid-two">
-              <AppointmentList appointments={APPOINTMENTS} />
-              <TopServices services={TOP_SERVICES} />
-            </div>
-          </>
-        )}
+        <Routes>
+          <Route path="/" element={<DashboardHome />} />
+          <Route path="/clients" element={<CustomerListPage />} />
+          <Route path="/clients/:id" element={<Customer360ProfilePage />} />
+          <Route path="/staff" element={<StaffListPage />} />
+          <Route path="/staff/:id" element={<StaffProfilePage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="*" element={<DashboardHome />} />
+        </Routes>
       </main>
     </div>
   );
