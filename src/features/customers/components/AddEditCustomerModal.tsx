@@ -24,7 +24,6 @@ export const AddEditCustomerModal: React.FC<AddEditCustomerModalProps> = ({
     dob: '',
     anniversary: '',
     gstin: '',
-    preferredStylistName: '',
     referralSource: '',
     medicalNotes: '',
     tags: [],
@@ -47,7 +46,6 @@ export const AddEditCustomerModal: React.FC<AddEditCustomerModalProps> = ({
         dob: initialCustomer.dob ? initialCustomer.dob.split('T')[0] : '',
         anniversary: initialCustomer.anniversary ? initialCustomer.anniversary.split('T')[0] : '',
         gstin: initialCustomer.gstin || '',
-        preferredStylistName: initialCustomer.preferredStylistName || '',
         referralSource: initialCustomer.referralSource || '',
         medicalNotes: initialCustomer.medicalNotes === 'RESTRICTED_MEDICAL_NOTE' ? '' : (initialCustomer.medicalNotes || ''),
         tags: initialCustomer.tags || [],
@@ -63,7 +61,6 @@ export const AddEditCustomerModal: React.FC<AddEditCustomerModalProps> = ({
         dob: '',
         anniversary: '',
         gstin: '',
-        preferredStylistName: '',
         referralSource: '',
         medicalNotes: '',
         tags: [],
@@ -126,11 +123,6 @@ export const AddEditCustomerModal: React.FC<AddEditCustomerModalProps> = ({
 
     if (!formData.gender) {
       setErrorMessage('Gender selection is required.');
-      return;
-    }
-
-    if (formData.gstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(formData.gstin.trim())) {
-      setErrorMessage('GSTIN must follow valid 15-character format (e.g., 07AAAAA0000A1Z5).');
       return;
     }
 
@@ -244,16 +236,6 @@ export const AddEditCustomerModal: React.FC<AddEditCustomerModalProps> = ({
                   <option value="Other">Other</option>
                   <option value="Prefer not to say">Prefer not to say</option>
                 </select>
-              </div>
-
-              <div className="cust-field cust-field--full">
-                <label>Preferred Stylist / Staff</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Priya Nair (Lead Stylist)"
-                  value={formData.preferredStylistName || ''}
-                  onChange={(e) => setFormData({ ...formData, preferredStylistName: e.target.value })}
-                />
               </div>
             </div>
           </div>

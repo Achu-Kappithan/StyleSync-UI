@@ -251,10 +251,6 @@ export const Customer360ProfilePage: React.FC = () => {
             <div className="cust-info-card">
               <h4>Preferences & Tax Info</h4>
               <div className="cust-detail-row">
-                <span className="cust-detail-label">Preferred Stylist</span>
-                <span>{customer.preferredStylistName || 'No preference saved'}</span>
-              </div>
-              <div className="cust-detail-row">
                 <span className="cust-detail-label">Referral Source</span>
                 <span>{customer.referralSource || 'Direct walk-in'}</span>
               </div>

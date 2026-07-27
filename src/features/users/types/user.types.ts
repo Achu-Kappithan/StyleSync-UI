@@ -1,8 +1,9 @@
 export interface UserMember {
   id: string;
   fullName: string;
-  email: string;
   phone: string;
+  gender?: string;
+  email?: string | null;
   role: string;
   status: 'active' | 'inactive';
   lastLogin: string | null;
@@ -16,16 +17,18 @@ export interface UserRole {
 
 export interface CreateUserPayload {
   fullName: string;
-  email: string;
   phone: string;
-  password: string;
-  roleName: string;
+  gender: string;
+  email?: string;
+  password?: string;
+  roleName?: string;
 }
 
 export interface UserFormErrors {
   fullName?: string;
-  email?: string;
   phone?: string;
+  gender?: string;
+  email?: string;
   password?: string;
   roleName?: string;
   server?: string;
