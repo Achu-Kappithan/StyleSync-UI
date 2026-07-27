@@ -8,8 +8,6 @@ export interface Customer {
   dob?: string | null;
   anniversary?: string | null;
   gstin?: string | null;
-  preferredStylistId?: string | null;
-  preferredStylistName?: string | null;
   referralSource?: string | null;
   medicalNotes?: string | null;
   tags: string[];
@@ -60,8 +58,6 @@ export interface CreateCustomerPayload {
   dob?: string;
   anniversary?: string;
   gstin?: string;
-  preferredStylistId?: string;
-  preferredStylistName?: string;
   referralSource?: string;
   medicalNotes?: string;
   tags?: string[];

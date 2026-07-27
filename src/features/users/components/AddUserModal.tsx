@@ -2,11 +2,11 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { UserRole, CreateUserPayload, UserFormErrors } from '../types/user.types';
 
 const FALLBACK_ROLES: UserRole[] = [
-  { id: '1', roleName: 'MANAGER', description: 'Operations manager for bookings, schedules, and team' },
-  { id: '2', roleName: 'ADMIN', description: 'Administrator with elevated management privileges' },
-  { id: '3', roleName: 'ACCOUNTANT', description: 'Financial manager for invoices, sales reports, and billing' },
-  { id: '4', roleName: 'RECEPTIONIST', description: 'Front desk coordinator for client check-in and booking' },
-  { id: '5', roleName: 'STAFF', description: 'Service provider / stylist viewing assigned schedules' },
+  { id: '1', roleName: 'STAFF', description: 'Service provider / stylist viewing assigned schedules' },
+  { id: '2', roleName: 'MANAGER', description: 'Operations manager for bookings, schedules, and team' },
+  { id: '3', roleName: 'RECEPTIONIST', description: 'Front desk coordinator for client check-in and booking' },
+  { id: '4', roleName: 'ACCOUNTANT', description: 'Financial manager for invoices, sales reports, and billing' },
+  { id: '5', roleName: 'ADMIN', description: 'Administrator with elevated management privileges' },
 ];
 
 interface AddUserModalProps {
@@ -24,20 +24,19 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
   onClose,
   onSubmit,
 }) => {
-  // Use provided roles if available, otherwise fallback to standard system roles
   const activeRoles = roles && roles.length > 0 ? roles : FALLBACK_ROLES;
 
   const [formData, setFormData] = useState<CreateUserPayload>({
     fullName: '',
-    email: '',
     phone: '',
+    gender: 'Female',
+    email: '',
     password: '',
-    roleName: activeRoles[0]?.roleName || 'MANAGER',
+    roleName: activeRoles[0]?.roleName || 'STAFF',
   });
 
   const [errors, setErrors] = useState<UserFormErrors>({});
 
-  // Sync roleName when activeRoles change
   useEffect(() => {
     if (activeRoles.length > 0 && !formData.roleName) {
       setFormData((prev) => ({ ...prev, roleName: activeRoles[0].roleName }));
@@ -56,19 +55,34 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
 
   const validate = (): UserFormErrors => {
     const errs: UserFormErrors = {};
-    if (!formData.fullName.trim()) errs.fullName = 'Full name is required';
-    if (!formData.email.trim()) {
-      errs.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errs.email = 'Invalid email address';
+
+    // CORE MANDATORY FIELDS: Full Name (*), Phone Number (*), Gender (*)
+    if (!formData.fullName.trim()) {
+      errs.fullName = 'Full name is required';
+    } else if (formData.fullName.trim().length < 2) {
+      errs.fullName = 'Full name must be at least 2 characters';
     }
-    if (!formData.phone.trim()) errs.phone = 'Phone number is required';
-    if (!formData.password) {
-      errs.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      errs.password = 'Min 6 characters';
+
+    if (!formData.phone.trim()) {
+      errs.phone = 'Phone number is required';
+    } else if (!/^\d{10}$/.test(formData.phone.trim().replace(/\D/g, ''))) {
+      errs.phone = 'Phone number must be 10 digits';
     }
-    if (!formData.roleName) errs.roleName = 'Please select a role';
+
+    if (!formData.gender) {
+      errs.gender = 'Gender selection is required';
+    }
+
+    // Email is optional (if provided, format must be valid)
+    if (formData.email && formData.email.trim() && !/\S+@\S+\.\S+/.test(formData.email.trim())) {
+      errs.email = 'Please enter a valid email address';
+    }
+
+    // Password is optional (if provided, min 6 characters)
+    if (formData.password && formData.password.length > 0 && formData.password.length < 6) {
+      errs.password = 'Password must be at least 6 characters';
+    }
+
     return errs;
   };
 
@@ -85,10 +99,11 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
       // Reset form
       setFormData({
         fullName: '',
-        email: '',
         phone: '',
+        gender: 'Female',
+        email: '',
         password: '',
-        roleName: activeRoles[0]?.roleName || 'MANAGER',
+        roleName: activeRoles[0]?.roleName || 'STAFF',
       });
       setErrors({});
     } catch (err: unknown) {
@@ -119,29 +134,73 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
         )}
 
         <form onSubmit={handleSubmit} className="modal-body">
+          {/* CORE MANDATORY FIELDS SECTION */}
           <div className="form-group">
-            <label htmlFor="fullName">Full Name *</label>
+            <label htmlFor="fullName">Full Name <span style={{ color: '#ef4444' }}>*</span></label>
             <input
               id="fullName"
               name="fullName"
               type="text"
-              placeholder="e.g. Alex Smith"
+              placeholder="e.g. Priya Sharma"
               value={formData.fullName}
               onChange={handleChange}
               className={errors.fullName ? 'form-input--error' : ''}
               disabled={isSubmitting}
+              required
             />
             {errors.fullName && <span className="field-error">{errors.fullName}</span>}
           </div>
 
           <div className="form-row-2">
             <div className="form-group">
-              <label htmlFor="email">Work Email *</label>
+              <label htmlFor="phone">Phone Number (10-Digit) <span style={{ color: '#ef4444' }}>*</span></label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="e.g. 9876543210"
+                value={formData.phone}
+                onChange={(e) => {
+                  const clean = e.target.value.replace(/\D/g, '');
+                  setFormData((prev) => ({ ...prev, phone: clean }));
+                  if (errors.phone) setErrors((prev) => ({ ...prev, phone: '' }));
+                }}
+                maxLength={10}
+                className={errors.phone ? 'form-input--error' : ''}
+                disabled={isSubmitting}
+                required
+              />
+              {errors.phone && <span className="field-error">{errors.phone}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="gender">Gender <span style={{ color: '#ef4444' }}>*</span></label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className={errors.gender ? 'form-input--error' : ''}
+                disabled={isSubmitting}
+                required
+              >
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+              {errors.gender && <span className="field-error">{errors.gender}</span>}
+            </div>
+          </div>
+
+          {/* OPTIONAL FIELDS SECTION */}
+          <div className="form-row-2">
+            <div className="form-group">
+              <label htmlFor="email">Work Email (Optional)</label>
               <input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="alex.smith@salon.com"
+                placeholder="e.g. alex.smith@salon.com"
                 value={formData.email}
                 onChange={handleChange}
                 className={errors.email ? 'form-input--error' : ''}
@@ -151,24 +210,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
             </div>
 
             <div className="form-group">
-              <label htmlFor="phone">Phone Number *</label>
-              <input
-                id="phone"
-                name="phone"
-                type="text"
-                placeholder="+1 (555) 000-0000"
-                value={formData.phone}
-                onChange={handleChange}
-                className={errors.phone ? 'form-input--error' : ''}
-                disabled={isSubmitting}
-              />
-              {errors.phone && <span className="field-error">{errors.phone}</span>}
-            </div>
-          </div>
-
-          <div className="form-row-2">
-            <div className="form-group">
-              <label htmlFor="roleName">Assigned Role *</label>
+              <label htmlFor="roleName">Assigned Role</label>
               <select
                 id="roleName"
                 name="roleName"
@@ -183,23 +225,22 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
                   </option>
                 ))}
               </select>
-              {errors.roleName && <span className="field-error">{errors.roleName}</span>}
             </div>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Initial Password *</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={handleChange}
-                className={errors.password ? 'form-input--error' : ''}
-                disabled={isSubmitting}
-              />
-              {errors.password && <span className="field-error">{errors.password}</span>}
-            </div>
+          <div className="form-group">
+            <label htmlFor="password">Initial Password (Optional)</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Defaults to phone number if left empty"
+              value={formData.password}
+              onChange={handleChange}
+              className={errors.password ? 'form-input--error' : ''}
+              disabled={isSubmitting}
+            />
+            {errors.password && <span className="field-error">{errors.password}</span>}
           </div>
 
           <div className="modal-footer">
@@ -216,7 +257,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
               className={`btn-primary ${isSubmitting ? 'loading' : ''}`}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Creating User...' : 'Add Team Member'}
+              {isSubmitting ? 'Creating Account...' : 'Add Team Member'}
             </button>
           </div>
         </form>
