@@ -1,0 +1,444 @@
+.srv-page {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.srv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.srv-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.srv-header p {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.srv-btn {
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.srv-btn--outline {
+  background: transparent;
+  border: 1px solid var(--border-color, #cbd5e1);
+  color: var(--text-primary, #0f172a);
+}
+
+.srv-btn--primary {
+  background-color: #6366f1;
+  color: #ffffff;
+}
+
+.srv-btn--purple {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+.srv-btn--gold {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.srv-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--border-color, #e2e8f0);
+  padding-bottom: 0.5rem;
+}
+
+.srv-tab {
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #64748b);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.srv-tab.active {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+.srv-error-banner {
+  padding: 0.85rem 1.25rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.srv-content-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .srv-content-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.srv-sidebar-card {
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.srv-sidebar-card h4 {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.srv-cat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary, #0f172a);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+}
+
+.srv-cat-item.active {
+  background-color: #6366f1;
+  color: #ffffff;
+}
+
+.srv-cat-count {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  background-color: var(--bg-hover, #e2e8f0);
+  color: var(--text-secondary, #475569);
+  font-weight: 600;
+}
+
+.srv-cat-item.active .srv-cat-count {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.srv-subcat-list {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.srv-subcat-tag {
+  font-size: 0.775rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-main-card {
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.srv-toolbar {
+  display: flex;
+  gap: 1rem;
+}
+
+.srv-search-input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background-color: var(--bg-input, #ffffff);
+  color: var(--text-primary, #0f172a);
+  font-size: 0.9rem;
+}
+
+.srv-table-container {
+  overflow-x: auto;
+}
+
+.srv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.srv-table th,
+.srv-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #f1f5f9);
+  text-align: left;
+}
+
+.srv-table th {
+  background-color: var(--bg-hover, #f8fafc);
+  color: var(--text-secondary, #64748b);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.775rem;
+}
+
+.srv-desc {
+  margin: 0.15rem 0 0;
+  font-size: 0.775rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-cat-pill {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.775rem;
+  font-weight: 600;
+}
+
+.srv-subcat-pill {
+  background-color: var(--bg-hover, #f1f5f9);
+  color: var(--text-secondary, #475569);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  margin-left: 0.35rem;
+}
+
+.srv-price-text {
+  color: #10b981;
+  font-size: 0.95rem;
+}
+
+.srv-gst-badge {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.775rem;
+  font-weight: 600;
+}
+
+.srv-reminder-badge {
+  background-color: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.775rem;
+  font-weight: 700;
+}
+
+.srv-reminder-badge--none {
+  background-color: var(--bg-hover, #f1f5f9);
+  color: var(--text-secondary, #94a3b8);
+  font-weight: 400;
+}
+
+.srv-action-btns {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.srv-action-btn {
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: transparent;
+  font-size: 0.775rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.srv-action-btn.edit:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+.srv-action-btn.delete:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* CARDS GRID FOR PACKAGES & MEMBERSHIPS */
+.srv-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.srv-pkg-card,
+.srv-mem-card {
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.srv-pkg-card__header {
+  position: relative;
+}
+
+.srv-pkg-card__header h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.srv-pkg-card__header p {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-pkg-card__items h5 {
+  margin: 0 0 0.5rem;
+  font-size: 0.825rem;
+  color: var(--text-secondary, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.srv-pkg-card__items ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.srv-pkg-card__items li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.srv-pkg-card__footer {
+  border-top: 1px solid var(--border-color, #f1f5f9);
+  padding-top: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.srv-validity-text {
+  font-size: 0.775rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-pkg-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #8b5cf6;
+}
+
+/* MEMBERSHIP CARDS */
+.srv-mem-card--silver {
+  border-top: 4px solid #94a3b8;
+}
+.srv-mem-card--gold {
+  border-top: 4px solid #f59e0b;
+}
+.srv-mem-card--platinum {
+  border-top: 4px solid #06b6d4;
+}
+.srv-mem-card--vip {
+  border-top: 4px solid #8b5cf6;
+}
+
+.srv-mem-card__badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-mem-discount {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #f59e0b;
+  margin-top: 0.25rem;
+}
+
+.srv-mem-card__footer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  border-top: 1px solid var(--border-color, #f1f5f9);
+  padding-top: 0.85rem;
+}
+
+.srv-mem-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+}
+
+.srv-mem-annual {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.srv-empty-state,
+.srv-loading {
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-secondary, #64748b);
+}
