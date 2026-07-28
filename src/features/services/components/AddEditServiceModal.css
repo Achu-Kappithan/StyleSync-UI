@@ -1,0 +1,76 @@
+.srv-modal--wide {
+  max-width: 640px;
+}
+
+.srv-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .srv-form-row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.srv-automation-box {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.srv-automation-box__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.srv-automation-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6366f1;
+  background-color: rgba(99, 102, 241, 0.15);
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.srv-automation-box h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+}
+
+.srv-automation-box p {
+  margin: 0;
+  font-size: 0.825rem;
+  color: var(--text-secondary, #64748b);
+  line-height: 1.4;
+}
+
+.srv-input-with-unit {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.srv-input-with-unit input {
+  width: 100%;
+  padding-right: 4rem;
+}
+
+.srv-unit-badge {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  pointer-events: none;
+}

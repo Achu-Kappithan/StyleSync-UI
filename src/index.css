@@ -54,6 +54,17 @@
   --sidebar-w-collapsed: 68px;
   --sidebar-w-expanded:  240px;
   --header-h:            64px;
+
+  /* === Universal Theme Aliases === */
+  --bg-card: var(--color-bg-card);
+  --bg-deep: var(--color-bg-deep);
+  --bg-dark: var(--color-bg-dark);
+  --bg-hover: var(--color-bg-mid);
+  --bg-input: #ffffff;
+  --text-primary: var(--color-text-white);
+  --text-secondary: var(--color-text-muted);
+  --border-color: var(--color-border);
+  --border-focus: var(--color-border-focus);
 }
 
 [data-theme="dark"] {
@@ -61,7 +72,7 @@
   --color-bg-deep: #081c1c;
   --color-bg-dark: #0d2b2b;
   --color-bg-mid: #1a3a3a;
-  --color-bg-card: rgba(13, 43, 43, 0.82);
+  --color-bg-card: #0d2b2b;
   --color-primary: #00c9a7;
   --color-primary-light: #00e5bf;
   --color-primary-dark: #009e86;
@@ -95,6 +106,17 @@
   --header-bg: #0d2b2b;
   --header-border: rgba(0, 201, 167, 0.15);
   --header-text: #ffffff;
+
+  /* === Universal Theme Aliases (Dark Mode) === */
+  --bg-card: #0d2b2b;
+  --bg-deep: #081c1c;
+  --bg-dark: #0d2b2b;
+  --bg-hover: #1a3a3a;
+  --bg-input: #1a3a3a;
+  --text-primary: #ffffff;
+  --text-secondary: #8ab5b0;
+  --border-color: rgba(0, 201, 167, 0.2);
+  --border-focus: rgba(0, 201, 167, 0.6);
 }
 
 *, *::before, *::after {

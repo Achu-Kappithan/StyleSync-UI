@@ -1,0 +1,58 @@
+.srv-form-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .srv-form-row-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.srv-field-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+  margin: -0.1rem 0 0.4rem;
+}
+
+.srv-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.6rem;
+  max-height: 160px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 8px;
+  background-color: var(--bg-hover, #f8fafc);
+}
+
+.srv-checkbox-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  font-size: 0.825rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.srv-checkbox-card.selected {
+  border-color: #6366f1;
+  background-color: rgba(99, 102, 241, 0.08);
+}
+
+.srv-checkbox-card input {
+  cursor: pointer;
+}
+
+.srv-srv-price {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+}

@@ -10,6 +10,12 @@ import { CustomerListPage } from '../../customers/pages/CustomerListPage';
 import { Customer360ProfilePage } from '../../customers/pages/Customer360ProfilePage';
 import { StaffListPage } from '../../employees/pages/StaffListPage';
 import { StaffProfilePage } from '../../employees/pages/StaffProfilePage';
+
+import { ServicesPage } from '../../services/pages/ServicesPage';
+import { CategoriesPage } from '../../services/pages/CategoriesPage';
+import { PackagesPage } from '../../services/pages/PackagesPage';
+import { MembershipsPage } from '../../services/pages/MembershipsPage';
+
 import { useAuth } from '../../auth/hooks/useAuth';
 import { StatCard, Appointment, ServiceMetric } from '../types/dashboard.types';
 import './Dashboard.css';
@@ -58,6 +64,14 @@ export const DashboardPage: React.FC = () => {
     ? 'clients'
     : location.pathname.includes('/staff')
     ? 'staff'
+    : location.pathname.includes('/categories')
+    ? 'categories'
+    : location.pathname.includes('/packages')
+    ? 'packages'
+    : location.pathname.includes('/memberships')
+    ? 'memberships'
+    : location.pathname.includes('/services')
+    ? 'services'
     : location.pathname.includes('/users')
     ? 'users'
     : 'dashboard';
@@ -66,6 +80,10 @@ export const DashboardPage: React.FC = () => {
     if (id === 'dashboard') navigate('/dashboard');
     else if (id === 'clients') navigate('/dashboard/clients');
     else if (id === 'staff') navigate('/dashboard/staff');
+    else if (id === 'services') navigate('/dashboard/services');
+    else if (id === 'categories') navigate('/dashboard/categories');
+    else if (id === 'packages') navigate('/dashboard/packages');
+    else if (id === 'memberships') navigate('/dashboard/memberships');
     else if (id === 'users') navigate('/dashboard/users');
     else navigate(`/dashboard/${id}`);
   };
@@ -95,6 +113,10 @@ export const DashboardPage: React.FC = () => {
           <Route path="/clients/:id" element={<Customer360ProfilePage />} />
           <Route path="/staff" element={<StaffListPage />} />
           <Route path="/staff/:id" element={<StaffProfilePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/packages" element={<PackagesPage />} />
+          <Route path="/memberships" element={<MembershipsPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="*" element={<DashboardHome />} />
         </Routes>
