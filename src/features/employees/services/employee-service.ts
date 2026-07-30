@@ -21,10 +21,10 @@ export const employeeService = {
     if (params.page) query.append('page', params.page.toString());
     if (params.limit) query.append('limit', params.limit.toString());
 
-    const res = await fetchApi<{ success: boolean; data: PaginatedEmployeesResponse }>(
+    const res = await fetchApi<any>(
       `/employees?${query.toString()}`,
     );
-    return res.data;
+    return res?.data || res;
   },
 
   async createEmployee(payload: CreateEmployeePayload): Promise<Employee> {

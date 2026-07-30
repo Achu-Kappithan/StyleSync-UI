@@ -15,6 +15,9 @@ import { ServicesPage } from '../../services/pages/ServicesPage';
 import { CategoriesPage } from '../../services/pages/CategoriesPage';
 import { PackagesPage } from '../../services/pages/PackagesPage';
 import { MembershipsPage } from '../../services/pages/MembershipsPage';
+import { AppointmentsPage } from '../../appointments/pages/AppointmentsPage';
+import { BillingPage } from '../../billing/pages/BillingPage';
+import { CheckoutPage } from '../../billing/pages/CheckoutPage';
 
 import { useAuth } from '../../auth/hooks/useAuth';
 import { StatCard, Appointment, ServiceMetric } from '../types/dashboard.types';
@@ -74,10 +77,16 @@ export const DashboardPage: React.FC = () => {
     ? 'services'
     : location.pathname.includes('/users')
     ? 'users'
+    : location.pathname.includes('/appointments')
+    ? 'appointments'
+    : location.pathname.includes('/billing')
+    ? 'billing'
     : 'dashboard';
 
   const handleNavItemClick = (id: string) => {
     if (id === 'dashboard') navigate('/dashboard');
+    else if (id === 'appointments') navigate('/dashboard/appointments');
+    else if (id === 'billing') navigate('/dashboard/billing');
     else if (id === 'clients') navigate('/dashboard/clients');
     else if (id === 'staff') navigate('/dashboard/staff');
     else if (id === 'services') navigate('/dashboard/services');
@@ -109,6 +118,9 @@ export const DashboardPage: React.FC = () => {
       >
         <Routes>
           <Route path="/" element={<DashboardHome />} />
+          <Route path="/billing" element={<BillingPage />} />
+          <Route path="/billing/checkout" element={<CheckoutPage />} />
+          <Route path="/appointments" element={<AppointmentsPage />} />
           <Route path="/clients" element={<CustomerListPage />} />
           <Route path="/clients/:id" element={<Customer360ProfilePage />} />
           <Route path="/staff" element={<StaffListPage />} />

@@ -4,6 +4,7 @@ import { PrivateRoute } from './PrivateRoute';
 
 const LoginPage = lazy(() => import('../features/auth/pages/LoginPage'));
 const DashboardPage = lazy(() => import('../features/dashboard/pages/DashboardPage'));
+const CheckoutPage = lazy(() => import('../features/billing/pages/CheckoutPage').then((m) => ({ default: m.CheckoutPage })));
 
 const PageLoader: React.FC = () => (
   <div
@@ -33,6 +34,14 @@ export const AppRoutes: React.FC = () => {
           element={
             <PrivateRoute>
               <DashboardPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <CheckoutPage />
             </PrivateRoute>
           }
         />

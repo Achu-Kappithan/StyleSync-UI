@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCustomers } from '../hooks/use-customers';
 import { Customer } from '../types/customer.types';
 import { AddEditCustomerModal } from '../components/AddEditCustomerModal';
@@ -7,10 +7,16 @@ import './CustomerListPage.css';
 
 export const CustomerListPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { data, loading, error, params, setParams, refetch } = useCustomers({
     page: 1,
     limit: 15,
   });
+
+  // Always refetch freshest data when navigating to Client List page
+  useEffect(() => {
+    refetch();
+  }, [location.pathname, refetch]);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
