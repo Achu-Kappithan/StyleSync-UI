@@ -19,6 +19,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard',    label: 'Dashboard',        icon: 'dashboard' },
+  { id: 'billing',      label: 'POS & Billing',    icon: 'billing' },
   { id: 'appointments', label: 'Appointments',     icon: 'calendar' },
   { id: 'clients',      label: 'Clients',          icon: 'clients' },
   { id: 'services',     label: 'Services',         icon: 'scissors' },
@@ -41,11 +42,11 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 const ROLE_NAV_PERMISSIONS: Record<string, string[]> = {
-  SALON_OWNER: ['dashboard', 'appointments', 'clients', 'services', 'categories', 'packages', 'memberships', 'staff', 'users', 'inventory', 'analytics'],
-  ADMIN: ['dashboard', 'appointments', 'clients', 'services', 'categories', 'packages', 'memberships', 'staff', 'users', 'inventory', 'analytics'],
-  MANAGER: ['dashboard', 'appointments', 'clients', 'services', 'categories', 'packages', 'memberships', 'staff', 'users', 'inventory'],
-  ACCOUNTANT: ['dashboard', 'analytics', 'inventory'],
-  RECEPTIONIST: ['dashboard', 'appointments', 'clients'],
+  SALON_OWNER: ['dashboard', 'billing', 'appointments', 'clients', 'services', 'categories', 'packages', 'memberships', 'staff', 'users', 'inventory', 'analytics'],
+  ADMIN: ['dashboard', 'billing', 'appointments', 'clients', 'services', 'categories', 'packages', 'memberships', 'staff', 'users', 'inventory', 'analytics'],
+  MANAGER: ['dashboard', 'billing', 'appointments', 'clients', 'services', 'categories', 'packages', 'memberships', 'staff', 'users', 'inventory'],
+  ACCOUNTANT: ['dashboard', 'billing', 'analytics', 'inventory'],
+  RECEPTIONIST: ['dashboard', 'billing', 'appointments', 'clients'],
   STAFF: ['dashboard', 'appointments'],
 };
 
@@ -63,6 +64,13 @@ const renderNavIcon = (iconType: string) => {
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
           <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      );
+    case 'billing':
+      return (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <line x1="2" y1="10" x2="22" y2="10"/>
         </svg>
       );
     case 'calendar':

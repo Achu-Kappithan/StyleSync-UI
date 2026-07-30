@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppointments } from '../hooks/use-appointments';
 import { Appointment, AppointmentStatus, CreateAppointmentPayload } from '../types/appointment.types';
 import { BookAppointmentModal } from '../components/BookAppointmentModal';
@@ -7,13 +8,13 @@ import './AppointmentsPage.css';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const STATUS_META: Record<AppointmentStatus, { label: string; className: string; nextAction: string | null; nextStatus: AppointmentStatus | null }> = {
-  PENDING:    { label: 'Pending',     className: 'apt-status--pending',    nextAction: 'Confirm',   nextStatus: 'CONFIRMED' },
-  CONFIRMED:  { label: 'Confirmed',   className: 'apt-status--confirmed',  nextAction: 'Start',     nextStatus: 'IN_PROGRESS' },
-  IN_PROGRESS:{ label: 'In Progress', className: 'apt-status--inprogress', nextAction: 'Complete',  nextStatus: 'COMPLETED' },
-  COMPLETED:  { label: 'Completed',   className: 'apt-status--completed',  nextAction: null,        nextStatus: null },
-  CANCELLED:  { label: 'Cancelled',   className: 'apt-status--cancelled',  nextAction: null,        nextStatus: null },
-  NO_SHOW:    { label: 'No Show',     className: 'apt-status--noshow',     nextAction: null,        nextStatus: null },
+const STATUS_META: Record<AppointmentStatus, { label: string; className: string }> = {
+  PENDING:    { label: 'Booked',      className: 'apt-status--pending' },
+  CONFIRMED:  { label: 'Booked',      className: 'apt-status--confirmed' },
+  IN_PROGRESS:{ label: 'In Progress', className: 'apt-status--inprogress' },
+  COMPLETED:  { label: 'Completed',   className: 'apt-status--completed' },
+  CANCELLED:  { label: 'Cancelled',   className: 'apt-status--cancelled' },
+  NO_SHOW:    { label: 'No Show',     className: 'apt-status--noshow' },
 };
 
 const formatTime = (iso: string): string => {
@@ -42,6 +43,8 @@ const SLOT_HEIGHT_PX      = 48; // height of a 30-min slot
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export const AppointmentsPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const {
     appointments, stats, loading, error,
     selectedDate, viewMode, setViewMode,
@@ -55,30 +58,46 @@ export const AppointmentsPage: React.FC = () => {
 
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
-  const handleAdvance = useCallback(async (appt: Appointment) => {
-    const meta = STATUS_META[appt.status];
-    if (!meta.nextStatus) return;
-    setActionLoading(appt.id);
-    try {
-      await advanceStatus(appt.id, meta.nextStatus);
-    } catch (err: any) {
-      alert(err.message ?? 'Failed to update status');
-    } finally {
-      setActionLoading(null);
-    }
-  }, [advanceStatus]);
+  const handleCompleteAndCheckout = useCallback(
+    (appt: Appointment) => {
+      try {
+        const customer = {
+          id: appt.customerId,
+          name: appt.customerName,
+          phone: appt.customerPhone,
+          gender: (appt as any).customerGender || 'FEMALE',
+          tags: ['REGULAR'],
+        };
 
-  const handleMarkNoShow = useCallback(async (appt: Appointment) => {
-    if (!window.confirm(`Mark ${appt.customerName} as No Show?`)) return;
-    setActionLoading(appt.id);
-    try {
-      await advanceStatus(appt.id, 'NO_SHOW', 'Client did not arrive');
-    } catch (err: any) {
-      alert(err.message ?? 'Failed to update status');
-    } finally {
-      setActionLoading(null);
-    }
-  }, [advanceStatus]);
+        const cartItems = appt.serviceSnapshots.map((svc: any) => ({
+          serviceId: svc.serviceId,
+          name: svc.name,
+          priceInclusive: Number(svc.priceInclusive ?? svc.price ?? 0),
+          durationMinutes: Number(svc.durationMinutes ?? 30),
+          gstRate: Number(svc.gstRate ?? 18),
+          quantity: 1,
+        }));
+
+        const itemStylists: Record<string, string> = {};
+        if (appt.employeeId) {
+          appt.serviceSnapshots.forEach((svc) => {
+            itemStylists[svc.serviceId] = appt.employeeId!;
+          });
+        }
+
+        localStorage.setItem('stylesync_checkout_cart', JSON.stringify(cartItems));
+        localStorage.setItem('stylesync_checkout_customer', JSON.stringify(customer));
+        localStorage.setItem('stylesync_item_stylists', JSON.stringify(itemStylists));
+        localStorage.setItem('stylesync_checkout_appointment_id', appt.id);
+        localStorage.setItem('stylesync_return_url', '/dashboard/appointments');
+
+        navigate('/checkout', { state: { returnUrl: '/dashboard/appointments' } });
+      } catch (err: any) {
+        alert(err.message ?? 'Failed to initiate appointment checkout');
+      }
+    },
+    [navigate],
+  );
 
   const handleBook = useCallback(async (payload: CreateAppointmentPayload) => {
     await bookAppointment(payload);
@@ -103,42 +122,37 @@ export const AppointmentsPage: React.FC = () => {
 
   // ─── Render: KPI Strip ────────────────────────────────────────────────────
 
-  const renderKpi = () => (
-    <div className="apt-kpi-strip">
-      <div className="apt-kpi-card apt-kpi--total">
-        <div className="apt-kpi-value">{stats.total}</div>
-        <div className="apt-kpi-label">Total</div>
+  const renderKpi = () => {
+    const activeCount = stats.pending + stats.confirmed + stats.inProgress;
+    return (
+      <div className="apt-kpi-strip">
+        <div className="apt-kpi-card apt-kpi--total">
+          <div className="apt-kpi-value">{stats.total}</div>
+          <div className="apt-kpi-label">Total</div>
+        </div>
+        <div className="apt-kpi-card apt-kpi--confirmed">
+          <div className="apt-kpi-value">{activeCount}</div>
+          <div className="apt-kpi-label">Booked / Active</div>
+        </div>
+        <div className="apt-kpi-card apt-kpi--completed">
+          <div className="apt-kpi-value">{stats.completed}</div>
+          <div className="apt-kpi-label">Completed</div>
+        </div>
+        <div className="apt-kpi-card apt-kpi--cancelled">
+          <div className="apt-kpi-value">{stats.cancelled + stats.noShow}</div>
+          <div className="apt-kpi-label">Cancelled</div>
+        </div>
       </div>
-      <div className="apt-kpi-card apt-kpi--pending">
-        <div className="apt-kpi-value">{stats.pending}</div>
-        <div className="apt-kpi-label">Pending</div>
-      </div>
-      <div className="apt-kpi-card apt-kpi--confirmed">
-        <div className="apt-kpi-value">{stats.confirmed}</div>
-        <div className="apt-kpi-label">Confirmed</div>
-      </div>
-      <div className="apt-kpi-card apt-kpi--inprogress">
-        <div className="apt-kpi-value">{stats.inProgress}</div>
-        <div className="apt-kpi-label">In Progress</div>
-      </div>
-      <div className="apt-kpi-card apt-kpi--completed">
-        <div className="apt-kpi-value">{stats.completed}</div>
-        <div className="apt-kpi-label">Completed</div>
-      </div>
-      <div className="apt-kpi-card apt-kpi--cancelled">
-        <div className="apt-kpi-value">{stats.cancelled + stats.noShow}</div>
-        <div className="apt-kpi-label">Cancelled / No-Show</div>
-      </div>
-    </div>
-  );
+    );
+  };
 
   // ─── Render: Appointment Card ─────────────────────────────────────────────
 
   const renderCard = (appt: Appointment) => {
-    const meta = STATUS_META[appt.status];
+    const meta = STATUS_META[appt.status] || { label: appt.status, className: '' };
     const isActioning = actionLoading === appt.id;
     const serviceList = appt.serviceSnapshots.map((s) => s.name).join(', ');
-    const canCancel = !['COMPLETED', 'CANCELLED', 'NO_SHOW'].includes(appt.status);
+    const isActive = !['COMPLETED', 'CANCELLED', 'NO_SHOW'].includes(appt.status);
 
     return (
       <div key={appt.id} className={`apt-card ${meta.className}`}>
@@ -153,7 +167,10 @@ export const AppointmentsPage: React.FC = () => {
 
         {/* Centre: info */}
         <div className="apt-card__body">
-          <div className="apt-card__name">{appt.customerName}</div>
+          <div className="apt-card__header-row">
+            <span className="apt-card__name">{appt.customerName}</span>
+            <span className={`apt-status-badge ${meta.className}`}>{meta.label}</span>
+          </div>
           <div className="apt-card__phone">{appt.customerPhone}</div>
           <div className="apt-card__services">{serviceList}</div>
           <div className="apt-card__meta">
@@ -169,43 +186,35 @@ export const AppointmentsPage: React.FC = () => {
           )}
         </div>
 
-        {/* Right: status + actions */}
+        {/* Right: actions */}
         <div className="apt-card__right">
-          <span className={`apt-status-badge ${meta.className}`}>{meta.label}</span>
-
-          <div className="apt-card__actions">
-            {meta.nextAction && meta.nextStatus && (
+          {isActive ? (
+            <div className="apt-card__actions">
               <button
-                id={`apt-advance-${appt.id}`}
-                className="apt-btn apt-btn--advance"
-                onClick={() => handleAdvance(appt)}
+                id={`apt-complete-${appt.id}`}
+                className="apt-btn apt-btn--complete"
+                onClick={() => handleCompleteAndCheckout(appt)}
                 disabled={isActioning}
+                title="Complete appointment & proceed directly to billing checkout"
               >
-                {isActioning ? '...' : meta.nextAction}
+                {isActioning ? '...' : '✓ Complete & Checkout 💳'}
               </button>
-            )}
 
-            {appt.status === 'CONFIRMED' && (
-              <button
-                id={`apt-noshow-${appt.id}`}
-                className="apt-btn apt-btn--noshow"
-                onClick={() => handleMarkNoShow(appt)}
-                disabled={isActioning}
-              >
-                No Show
-              </button>
-            )}
-
-            {canCancel && (
               <button
                 id={`apt-cancel-${appt.id}`}
                 className="apt-btn apt-btn--cancel"
                 onClick={() => setCancelTarget(appt)}
+                disabled={isActioning}
+                title="Cancel appointment"
               >
-                Cancel
+                ✕ Cancel
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <span className="apt-card__done-label">
+              {appt.status === 'COMPLETED' ? 'Finished' : 'Cancelled'}
+            </span>
+          )}
         </div>
       </div>
     );
